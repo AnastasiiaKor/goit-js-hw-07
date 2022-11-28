@@ -3,7 +3,7 @@ import { galleryItems } from "./gallery-items.js";
 
 const galleryEl = document.querySelector(".gallery");
 
-const picsMarkUp = galleryItems
+const picsMarkup = galleryItems
   .map(({ preview, original, description }) => {
     return `<div class="gallery__item">
   <a class="gallery__link" href= ${original} >
@@ -18,19 +18,36 @@ const picsMarkUp = galleryItems
   })
   .join("");
 
-galleryEl.insertAdjacentHTML("beforeend", `${picsMarkUp}`);
+galleryEl.insertAdjacentHTML("beforeend", `${picsMarkup}`);
 
 galleryEl.addEventListener("click", (event) => {
   event.preventDefault();
 
-  if (event.target.classList.contains(".gallery__image")) {
+  if (!event.target.classList.contains("gallery__image")) {
     return;
   }
+  const target = event.target;
 
-  const modalImg = basicLightbox.create(`<img
-  //       src="${event.target.dataset.source}"
-  //       alt= "${event.target.alt}"
-  //     />`);
-
-  modalImg.show();
+  manageModal(target);
 });
+
+function manageModal(element) {
+  const modalImgMarkUp = basicLightbox.create(
+    `<img
+     src=${element.dataset.source}
+    alt= "${element.alt}"
+    />`
+  );
+
+  modalImgMarkUp.show();
+
+  const isModalShown = modalImgMarkUp.show();
+
+  if (isModalShown) {
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        modalImgMarkUp.close();
+      }
+    });
+  }
+}
