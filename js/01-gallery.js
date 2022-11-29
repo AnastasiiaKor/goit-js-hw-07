@@ -41,10 +41,14 @@ function manageModal(element) {
 
   modalImgMarkUp.show();
 
-  const isModalShown = modalImgMarkUp.show();
-
-  if (isModalShown) {
+  if (modalImgMarkUp.visible()) {
     window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        modalImgMarkUp.close();
+      }
+    });
+  } else {
+    window.removeEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         modalImgMarkUp.close();
       }
