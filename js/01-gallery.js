@@ -36,17 +36,23 @@ function manageModal(element) {
     `<img
      src=${element.dataset.source}
     alt= "${element.alt}"
-    />`
+    />`,
+    {
+      onShow() {
+        window.addEventListener("keydown", onEscapePress);
+      },
+      onClose() {
+        window.removeEventListener("keydown", onEscapePress);
+      },
+    }
   );
 
   modalImgMarkUp.show();
 
-  window.addEventListener("keydown", onEscapePress);
-
   function onEscapePress(event) {
+    console.log(event);
     if (event.key === "Escape") {
       modalImgMarkUp.close();
-      window.removeEventListener("keydown", onEscapePress);
     }
   }
 }
