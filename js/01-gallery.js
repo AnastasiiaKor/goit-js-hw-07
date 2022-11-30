@@ -41,17 +41,12 @@ function manageModal(element) {
 
   modalImgMarkUp.show();
 
-  if (modalImgMarkUp.visible()) {
-    window.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        modalImgMarkUp.close();
-      }
-    });
-  } else {
-    window.removeEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        modalImgMarkUp.close();
-      }
-    });
+  window.addEventListener("keydown", onEscapePress);
+
+  function onEscapePress(event) {
+    if (event.key === "Escape") {
+      modalImgMarkUp.close();
+      window.removeEventListener("keydown", onEscapePress);
+    }
   }
 }
